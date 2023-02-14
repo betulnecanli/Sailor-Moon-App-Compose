@@ -37,6 +37,7 @@ import com.betulnecanli.sailormoonapp.ui.theme.buttonBackgroundColor
 import com.betulnecanli.sailormoonapp.ui.theme.descriptionColor
 import com.betulnecanli.sailormoonapp.ui.theme.inactiveIndicatorColor
 import com.betulnecanli.sailormoonapp.ui.theme.titleColor
+import com.betulnecanli.sailormoonapp.utils.Constants.LAST_ON_BOARDING_PAGE
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 
@@ -94,7 +95,7 @@ fun FinishButton(modifier : Modifier,
         horizontalArrangement = Arrangement.Center
     ){
         AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
-            visible = pagerState.currentPage == 2) {
+            visible = pagerState.currentPage == LAST_ON_BOARDING_PAGE) {
             Button(onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.buttonBackgroundColor,
