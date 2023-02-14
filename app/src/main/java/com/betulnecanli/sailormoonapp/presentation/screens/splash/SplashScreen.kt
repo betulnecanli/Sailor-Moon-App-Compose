@@ -21,7 +21,7 @@ import com.betulnecanli.sailormoonapp.ui.theme.Pink700
 
 @Composable
 fun SplashScreen(navController: NavHostController){
-
+        Splash()
 }
 
 @Composable
