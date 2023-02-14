@@ -1,4 +1,4 @@
-package com.betulnecanli.domain.model
+package com.betulnecanli.sailormoonapp.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

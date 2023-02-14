@@ -1,10 +1,10 @@
-package com.betulnecanli.data.local.dao
+package com.betulnecanli.sailormoonapp.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.betulnecanli.domain.model.SailorRemoteKey
+import com.betulnecanli.sailormoonapp.domain.model.SailorRemoteKey
 
 @Dao
 interface SailorRemoteKeyDao{
