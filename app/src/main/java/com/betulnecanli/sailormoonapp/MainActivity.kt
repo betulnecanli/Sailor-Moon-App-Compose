@@ -14,7 +14,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.betulnecanli.sailormoonapp.navigation.SetupNavGraph
 import com.betulnecanli.sailormoonapp.ui.theme.SailorMoonAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
@@ -24,6 +26,7 @@ class MainActivity : ComponentActivity() {
             SailorMoonAppTheme {
                 navController = rememberNavController()
                 SetupNavGraph(navController = navController)
+
             }
         }
     }

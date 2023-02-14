@@ -6,12 +6,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.betulnecanli.presentation.screens.splash.SplashScreen
+import com.betulnecanli.sailormoonapp.presentation.screens.splash.SplashScreen
 import com.betulnecanli.sailormoonapp.utils.Constants.DETAILS_ARGUMENT_KEY
 
 @Composable
 fun SetupNavGraph(navController: NavHostController){
-    NavHost(navController = navController, startDestination = Screen.Splash.route){
+    NavHost(navController = navController,
+        startDestination = Screen.Splash.route){
         composable(route = Screen.Splash.route){
             SplashScreen(navController = navController)
         }
