@@ -28,6 +28,8 @@ import androidx.compose.material.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.betulnecanli.sailormoonapp.navigation.Screen
 import com.betulnecanli.sailormoonapp.ui.theme.EXTRA_LARGE_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.PAGING_INDICATOR_SPACING
 import com.betulnecanli.sailormoonapp.ui.theme.PAGING_INDICATOR_WIDTH
@@ -43,7 +45,9 @@ import com.google.accompanist.pager.PagerState
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WelcomeScreen(navController : NavHostController){
+fun WelcomeScreen(navController : NavHostController,
+                    welcomeViewModel : WelcomeViewModel = hiltViewModel()
+                  ){
         val pages = listOf(
             OnBoardingPage.First,
             OnBoardingPage.Second,
@@ -74,7 +78,9 @@ fun WelcomeScreen(navController : NavHostController){
 
         FinishButton(modifier = Modifier.weight(1f),
             pagerState = pagerState) {
-            
+            navController.popBackStack()
+            navController.navigate(Screen.Home.route)
+            welcomeViewModel.saveOnBoardingState(completed = true)
         }
 
     }
