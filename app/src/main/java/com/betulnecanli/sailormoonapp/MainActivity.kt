@@ -10,8 +10,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.betulnecanli.sailormoonapp.navigation.SetupNavGraph
 import com.betulnecanli.sailormoonapp.ui.theme.SailorMoonAppTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
-
+@OptIn(ExperimentalPagerApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
