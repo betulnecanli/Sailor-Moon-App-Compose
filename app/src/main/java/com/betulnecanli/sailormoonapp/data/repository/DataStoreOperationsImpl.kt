@@ -1,4 +1,4 @@
-package com.betulnecanli.sailormoonapp.data.pref
+package com.betulnecanli.sailormoonapp.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
