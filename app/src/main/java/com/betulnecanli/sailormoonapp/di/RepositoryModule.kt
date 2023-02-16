@@ -5,6 +5,7 @@ import com.betulnecanli.sailormoonapp.data.prefs.DataStoreOperationsImpl
 import com.betulnecanli.sailormoonapp.data.repository.Repository
 import com.betulnecanli.sailormoonapp.domain.repository.DatastoreOperations
 import com.betulnecanli.sailormoonapp.domain.use_cases.UseCases
+import com.betulnecanli.sailormoonapp.domain.use_cases.get_all_characters.GetAllCharactersUseCase
 import com.betulnecanli.sailormoonapp.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import com.betulnecanli.sailormoonapp.domain.use_cases.save_onboarding.SaveOnBoardingUseCase
 import dagger.Module
@@ -32,7 +33,8 @@ object RepositoryModule {
     fun provideUseCases(repository: Repository): UseCases {
         return UseCases(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
-            readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
+            readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
+            getAllCharactersUseCase = GetAllCharactersUseCase(repository)
         )
     }
 
