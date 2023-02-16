@@ -1,6 +1,9 @@
 package com.betulnecanli.sailormoonapp.di
 
+import com.betulnecanli.sailormoonapp.data.local.SailorDatabase
 import com.betulnecanli.sailormoonapp.data.remote.SailorApi
+import com.betulnecanli.sailormoonapp.data.repository.RemoteDataSourceImpl
+import com.betulnecanli.sailormoonapp.domain.repository.RemoteDataSource
 import com.betulnecanli.sailormoonapp.utils.Constants.BASE_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -47,6 +50,18 @@ object NetworkModule {
     @Singleton
     fun providesSailorApi(retrofit: Retrofit) : SailorApi{
         return retrofit.create(SailorApi::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(
+    sailorApi : SailorApi,
+    sailorDB: SailorDatabase
+    ): RemoteDataSource{
+        return RemoteDataSourceImpl(
+        sailorApi, sailorDB
+        )
     }
 
 }
