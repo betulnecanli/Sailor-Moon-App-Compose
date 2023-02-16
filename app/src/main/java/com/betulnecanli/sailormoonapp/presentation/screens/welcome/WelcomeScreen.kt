@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.presentation.screens.welcome
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -81,6 +82,7 @@ fun WelcomeScreen(navController : NavHostController,
             navController.popBackStack()
             navController.navigate(Screen.Home.route)
             welcomeViewModel.saveOnBoardingState(completed = true)
+            Log.d("awert","finishbutton")
         }
 
     }

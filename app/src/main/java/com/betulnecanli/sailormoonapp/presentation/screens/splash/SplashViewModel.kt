@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.presentation.screens.splash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.betulnecanli.sailormoonapp.domain.use_cases.UseCases
@@ -18,16 +19,12 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel(){
 
     private val _onBoardingCompleted = MutableStateFlow(false)
-    val onBoardingCompleted : StateFlow<Boolean>  = _onBoardingCompleted
-
+    val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _onBoardingCompleted.value =
                 useCases.readOnBoardingUseCase().stateIn(viewModelScope).value
         }
-
-
     }
-
 }

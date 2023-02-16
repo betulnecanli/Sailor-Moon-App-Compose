@@ -1,6 +1,7 @@
-package com.betulnecanli.sailormoonapp.data.repository
+package com.betulnecanli.sailormoonapp.data.prefs
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -19,32 +20,32 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PRE
 
 class DataStoreOperationsImpl(context : Context): DatastoreOperations {
 
-    private object PreferencesKey{
+    private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = PREFERENCES_KEY)
     }
 
     private val dataStore = context.dataStore
 
-
     override suspend fun saveOnBoardingState(completed: Boolean) {
-        dataStore.edit {preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKey.onBoardingKey] = completed
 
         }
     }
 
     override fun readOnBoardingState(): Flow<Boolean> {
-      return dataStore.data
-          .catch { exception ->
-              if(exception is IOException){
-                  emit(emptyPreferences())
-              }else {
-                  throw exception
-              }
-          }
-          .map{preferences ->
-              val onBoardingState = preferences[PreferencesKey.onBoardingKey] ?: false
-              onBoardingState
-          }
+        return dataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val onBoardingState = preferences[PreferencesKey.onBoardingKey] ?: false
+                onBoardingState
+            }
     }
 }

@@ -1,7 +1,7 @@
 package com.betulnecanli.sailormoonapp.di
 
 import android.content.Context
-import com.betulnecanli.sailormoonapp.data.repository.DataStoreOperationsImpl
+import com.betulnecanli.sailormoonapp.data.prefs.DataStoreOperationsImpl
 import com.betulnecanli.sailormoonapp.data.repository.Repository
 import com.betulnecanli.sailormoonapp.domain.repository.DatastoreOperations
 import com.betulnecanli.sailormoonapp.domain.use_cases.UseCases
@@ -22,13 +22,15 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDataStoreOperations(@ApplicationContext context: Context) : DatastoreOperations{
+    fun provideDataStoreOperations(
+        @ApplicationContext context: Context
+    ): DatastoreOperations {
         return DataStoreOperationsImpl(context = context)
     }
 
     @Provides
     @Singleton
-    fun provideUseCases(repository: Repository): UseCases{
+    fun provideUseCases(repository: Repository): UseCases {
         return UseCases(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
