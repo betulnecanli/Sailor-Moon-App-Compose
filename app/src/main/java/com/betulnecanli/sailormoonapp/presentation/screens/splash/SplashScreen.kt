@@ -31,7 +31,9 @@ fun SplashScreen(navController: NavHostController,
                     splashViewModel: SplashViewModel = hiltViewModel())
 {
         val lifecycleOwner = LocalLifecycleOwner.current
+
         val onBoardingCompleted by splashViewModel.onBoardingCompleted.collectAsState()
+
         LaunchedEffect(lifecycleOwner) {
         navController.popBackStack()
         if (onBoardingCompleted){
@@ -43,11 +45,7 @@ fun SplashScreen(navController: NavHostController,
 
         }
     }
-
-
-
-
-        Splash()
+    Splash()
 }
 
 @Composable

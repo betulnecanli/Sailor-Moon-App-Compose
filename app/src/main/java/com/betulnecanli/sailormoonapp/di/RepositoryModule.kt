@@ -19,7 +19,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-
     @Provides
     @Singleton
     fun provideDataStoreOperations(
@@ -36,6 +35,5 @@ object RepositoryModule {
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
         )
     }
-
 
 }

@@ -13,6 +13,7 @@ import com.betulnecanli.sailormoonapp.utils.Constants.PREFERENCES_KEY
 import com.betulnecanli.sailormoonapp.utils.Constants.PREFERENCES_NAME
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
@@ -27,10 +28,11 @@ class DataStoreOperationsImpl(context : Context): DatastoreOperations {
     private val dataStore = context.dataStore
 
     override suspend fun saveOnBoardingState(completed: Boolean) {
-        dataStore.edit { preferences ->
+       dataStore.edit { preferences ->
             preferences[PreferencesKey.onBoardingKey] = completed
 
         }
+
     }
 
     override fun readOnBoardingState(): Flow<Boolean> {
