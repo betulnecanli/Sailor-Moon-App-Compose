@@ -1,7 +1,8 @@
 package com.betulnecanli.sailormoonapp.utils
 
 object Constants {
-
+    const val BASE_URL : String = "http://10.0.2.2:8080"
+    const val  STARTING_PAGE_INDEX : Int = 1
     const val DETAILS_ARGUMENT_KEY = "chId"
     const val SAILOR_DB = "sailor_database"
     const val SAILOR_DATABASE_TABLE = "sailor_table"
