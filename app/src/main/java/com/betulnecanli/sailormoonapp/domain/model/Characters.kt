@@ -13,5 +13,6 @@ data class Characters(
     val realName: String,
     val birthday: String,
     val age: Int?,
-    val species: String
+    val species: String,
+    val heart : Double
 )

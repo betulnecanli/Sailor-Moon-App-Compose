@@ -11,6 +11,6 @@ class HomeViewModel @Inject constructor(
         useCases: UseCases
 ): ViewModel() {
 
-    val getAllCharacters  = useCases.getAllCharactersUseCase
+    val getAllCharacters  = useCases.getAllCharactersUseCase()
 
 }
