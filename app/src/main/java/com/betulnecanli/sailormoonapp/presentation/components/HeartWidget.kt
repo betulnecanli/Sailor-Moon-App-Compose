@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.presentation.components
 
+import android.hardware.lights.Light
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -104,6 +105,33 @@ fun HalfFilledHeart(
 
 
 @Composable
+fun EmptyHeart(
+    heartPath : Path,
+    heartPathBounds: Rect,
+    scaleFactor : Float
+){
+    Canvas(modifier = Modifier.size(24.dp)){
+        val canvasSize = this.size
+
+        scale(scale = scaleFactor){
+            val pathWidth  = heartPathBounds.width
+            val pathHeight = heartPathBounds.height
+            val left = (canvasSize.width/2) - (pathWidth/2)
+            val top = (canvasSize.height/2) - (pathHeight/2)
+
+            translate(left = left, top = top) {
+                drawPath(
+                    path = heartPath,
+                    color = Color.LightGray.copy(alpha = 0.5f)
+                )
+            }
+        }
+
+
+    }
+}
+
+@Composable
 @Preview(showBackground = true)
 fun FilledHeartPreview(){
     val heartPathString = stringResource(id = R.string.heart_path)
@@ -127,4 +155,17 @@ fun HalfFilledHeartPreview(){
         heartPath.getBounds()
     }
    HalfFilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = 3f)
+}
+
+@Composable
+@Preview(showBackground = true)
+fun EmptyFilledHeartPreview(){
+    val heartPathString = stringResource(id = R.string.heart_path)
+    val heartPath = remember{
+        PathParser().parsePathString(pathData = heartPathString).toPath()
+    }
+    val heartPathBounds = remember {
+        heartPath.getBounds()
+    }
+    EmptyHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = 3f)
 }
