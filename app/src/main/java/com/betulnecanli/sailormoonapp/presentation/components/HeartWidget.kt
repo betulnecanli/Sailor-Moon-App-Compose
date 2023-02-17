@@ -6,7 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
@@ -20,7 +23,8 @@ import com.betulnecanli.sailormoonapp.ui.theme.heartColor
 @Composable
 fun HeartWidget(
     modifier: Modifier,
-    heart: Double
+    heart: Double,
+    scaleFactor: Float = 3f
 ){
     val heartPathString = stringResource(id = R.string.heart_path)
     val heartPath = remember{
@@ -30,7 +34,7 @@ fun HeartWidget(
         heartPath.getBounds()
     }
 
-    FilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds)
+    FilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = scaleFactor)
 
 }
 
@@ -39,7 +43,7 @@ fun HeartWidget(
 fun FilledHeart(
     heartPath : Path,
     heartPathBounds: Rect,
-    scaleFactor : Float = 2f
+    scaleFactor : Float
 
 ){
             Canvas(modifier = Modifier.size(24.dp)){
@@ -63,9 +67,64 @@ fun FilledHeart(
             }
 }
 
+@Composable
+fun HalfFilledHeart(
+    heartPath : Path,
+    heartPathBounds: Rect,
+    scaleFactor : Float
+){
+    Canvas(modifier = Modifier.size(24.dp)){
+        val canvasSize = this.size
+
+        scale(scale = scaleFactor){
+            val pathWidth  = heartPathBounds.width
+            val pathHeight = heartPathBounds.height
+            val left = (canvasSize.width/2) - (pathWidth/2)
+            val top = (canvasSize.height/2) - (pathHeight/2)
+
+            translate(left = left, top = top) {
+                drawPath(
+                    path = heartPath,
+                    color = Color.LightGray.copy(alpha = 0.5f)
+                )
+                clipPath(path = heartPath){
+                    drawRect(
+                        color = heartColor,
+                        size = Size(
+                            width = heartPathBounds.maxDimension / 2f,
+                            height = heartPathBounds.maxDimension * scaleFactor
+
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 @Preview(showBackground = true)
 fun FilledHeartPreview(){
-    HeartWidget(modifier = Modifier, heart = 1.0)
+    val heartPathString = stringResource(id = R.string.heart_path)
+    val heartPath = remember{
+        PathParser().parsePathString(pathData = heartPathString).toPath()
+    }
+    val heartPathBounds = remember {
+        heartPath.getBounds()
+    }
+    FilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = 3f)
+
+}
+@Composable
+@Preview(showBackground = true)
+fun HalfFilledHeartPreview(){
+    val heartPathString = stringResource(id = R.string.heart_path)
+    val heartPath = remember{
+        PathParser().parsePathString(pathData = heartPathString).toPath()
+    }
+    val heartPathBounds = remember {
+        heartPath.getBounds()
+    }
+   HalfFilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = 3f)
 }
