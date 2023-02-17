@@ -20,12 +20,14 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context : Context
-    ) : RoomDatabase{
+    ) : SailorDatabase{
         return Room.databaseBuilder(
             context,
             SailorDatabase::class.java,
             SAILOR_DB
         ).build()
     }
+
+
 
 }

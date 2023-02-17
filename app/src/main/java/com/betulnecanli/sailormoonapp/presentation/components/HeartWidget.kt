@@ -1,11 +1,18 @@
 package com.betulnecanli.sailormoonapp.presentation.components
 
-import android.hardware.lights.Light
+
+import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -16,8 +23,10 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.betulnecanli.sailormoonapp.R
+import com.betulnecanli.sailormoonapp.ui.theme.EXTRA_SMALL_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.Pink200
 import com.betulnecanli.sailormoonapp.ui.theme.heartColor
 
@@ -25,8 +34,12 @@ import com.betulnecanli.sailormoonapp.ui.theme.heartColor
 fun HeartWidget(
     modifier: Modifier,
     heart: Double,
-    scaleFactor: Float = 3f
+    scaleFactor: Float = 3f,
+    spaceBetween : Dp = EXTRA_SMALL_PADDING
 ){
+
+    val result = CalculateHearts(rating = heart)
+
     val heartPathString = stringResource(id = R.string.heart_path)
     val heartPath = remember{
         PathParser().parsePathString(pathData = heartPathString).toPath()
@@ -35,7 +48,40 @@ fun HeartWidget(
         heartPath.getBounds()
     }
 
-    FilledHeart(heartPath = heartPath, heartPathBounds = heartPathBounds, scaleFactor = scaleFactor)
+    Row(modifier  = modifier,
+    horizontalArrangement = Arrangement.spacedBy(spaceBetween)
+        ){
+        result["filledHeart"]?.let {
+            repeat(it){
+                FilledHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = scaleFactor
+                )
+            }
+        }
+        result["halfFilledHearts"]?.let {
+            repeat(it){
+                HalfFilledHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = scaleFactor
+                )
+            }
+        }
+        result["emptyHearts"]?.let {
+            repeat(it){
+                EmptyHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = scaleFactor
+                )
+            }
+        }
+    }
+
+
+
 
 }
 
@@ -45,10 +91,9 @@ fun FilledHeart(
     heartPath : Path,
     heartPathBounds: Rect,
     scaleFactor : Float
-
 ){
             Canvas(modifier = Modifier.size(24.dp)){
-                val canvasSize = this.size
+                val canvasSize = size
 
                 scale(scale = scaleFactor){
                     val pathWidth  = heartPathBounds.width
@@ -63,8 +108,6 @@ fun FilledHeart(
                         )
                     }
                 }
-
-
             }
 }
 
@@ -75,7 +118,7 @@ fun HalfFilledHeart(
     scaleFactor : Float
 ){
     Canvas(modifier = Modifier.size(24.dp)){
-        val canvasSize = this.size
+        val canvasSize = size
 
         scale(scale = scaleFactor){
             val pathWidth  = heartPathBounds.width
@@ -111,7 +154,7 @@ fun EmptyHeart(
     scaleFactor : Float
 ){
     Canvas(modifier = Modifier.size(24.dp)){
-        val canvasSize = this.size
+        val canvasSize = size
 
         scale(scale = scaleFactor){
             val pathWidth  = heartPathBounds.width
@@ -131,6 +174,102 @@ fun EmptyHeart(
     }
 }
 
+
+@Composable
+fun CalculateHearts(rating : Double) : Map<String, Int>{
+    val maxHearts by remember {
+        mutableStateOf(5)
+    }
+    var filledHearts by remember {
+        mutableStateOf(0)
+    }
+    var halfFilledHearts by remember {
+        mutableStateOf(0)
+    }
+    var emptyHearts by remember {
+        mutableStateOf(0)
+    }
+
+    LaunchedEffect(key1 = rating ){
+        val(firstNumber, secondNumber)  = rating.toString()
+            .split(".")
+            .map{
+                it.toInt()
+            }
+        if(firstNumber in 1..5  && secondNumber in 0..9){
+            filledHearts = firstNumber
+            if(secondNumber in 1..5){
+                halfFilledHearts++
+            }
+            if(secondNumber in 6..9 ){
+                filledHearts++
+            }
+            if(firstNumber == 5 && secondNumber > 0){
+                emptyHearts = 5
+                filledHearts = 0
+                halfFilledHearts = 0
+            }
+        }
+        else{
+            Log.d("HeartWidget","Invalid rating number.")
+        }
+
+    }
+    emptyHearts = maxHearts - (filledHearts + halfFilledHearts)
+    return mapOf(
+        "filledHeart" to filledHearts,
+        "halfFilledHearts" to halfFilledHearts,
+        "emptyHearts" to emptyHearts
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+fun showP(){
+    val result = CalculateHearts(rating = 5.0)
+
+    val heartPathString = stringResource(id = R.string.heart_path)
+    val heartPath = remember{
+        PathParser().parsePathString(pathData = heartPathString).toPath()
+    }
+    val heartPathBounds = remember {
+        heartPath.getBounds()
+    }
+
+    Row(modifier  = Modifier,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ){
+        result["filledHeart"]?.let {
+            repeat(it){
+                FilledHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = 3f
+                )
+                Log.d("heart", it.toString())
+            }
+        }
+        result["halfFilledHearts"]?.let {
+            repeat(it){
+                HalfFilledHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = 3f
+                )
+            }
+        }
+        result["emptyHearts"]?.let {
+            repeat(it){
+                EmptyHeart(
+                    heartPath = heartPath,
+                    heartPathBounds = heartPathBounds,
+                    scaleFactor = 3f
+                )
+            }
+        }
+    }
+
+}
 @Composable
 @Preview(showBackground = true)
 fun FilledHeartPreview(){
