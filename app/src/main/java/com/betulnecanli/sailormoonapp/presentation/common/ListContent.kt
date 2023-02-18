@@ -1,6 +1,7 @@
 package com.betulnecanli.sailormoonapp.presentation.common
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,12 +33,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.LoadState
 import androidx.paging.compose.items
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.betulnecanli.sailormoonapp.R
 import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
 import com.betulnecanli.sailormoonapp.navigation.Screen
 import com.betulnecanli.sailormoonapp.presentation.components.HeartWidget
+import com.betulnecanli.sailormoonapp.presentation.components.ShimmerEffect
 import com.betulnecanli.sailormoonapp.ui.theme.CHARACTER_ITEM_HEIGHT
 import com.betulnecanli.sailormoonapp.ui.theme.LARGE_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.MEDIUM_PADDING
@@ -45,29 +49,63 @@ import com.betulnecanli.sailormoonapp.ui.theme.SMALL_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.topAppBarContentColor
 import com.betulnecanli.sailormoonapp.utils.Constants.BASE_URL
 
+
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ListContent(
     characters : LazyPagingItems<SailorMoon>,
     navController : NavHostController
 ){
+
+    val result = handlePagingResult(characters = characters)
+    if(result){
         LazyColumn(     contentPadding = PaddingValues(all = SMALL_PADDING),
-                        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
 
-            ){
-                 items(items = characters,
-                 key = {
-                     it.id
-                 }){ character ->
-                     character?.let{
-                         CharacterItem(character = it, navController = navController)
-                     }
+        ){
+            items(items = characters,
+                key = {
+                    it.id
+                }){ character ->
+                character?.let{
+                    CharacterItem(character = it, navController = navController)
+                }
 
-                 }
+            }
         }
+    }
+
+
 }
 
 
+@Composable
+fun handlePagingResult(
+    characters : LazyPagingItems<SailorMoon>
+): Boolean{
+    characters.apply {
+        val error = when{
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
 
+        return when{
+            loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
+                false
+            }
+            error != null -> {
+                false
+            }
+            else -> true
+        }
+    }
+}
+
+
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CharacterItem(
     character : SailorMoon,

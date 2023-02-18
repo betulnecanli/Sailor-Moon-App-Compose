@@ -10,9 +10,14 @@ import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
 import com.betulnecanli.sailormoonapp.presentation.common.ListContent
 import com.betulnecanli.sailormoonapp.presentation.components.HeartWidget
+import com.betulnecanli.sailormoonapp.presentation.components.ShimmerEffect
 import com.betulnecanli.sailormoonapp.ui.theme.LARGE_PADDING
+
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -22,6 +27,7 @@ fun HomeScreen(
         navController : NavHostController,
         homeViewModel: HomeViewModel = hiltViewModel()
 ){
+
 
         val allCharacters = homeViewModel.getAllCharacters.collectAsLazyPagingItems()
 
@@ -37,4 +43,5 @@ fun HomeScreen(
                 )
         }
 }
+
 
