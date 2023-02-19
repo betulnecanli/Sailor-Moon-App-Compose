@@ -20,6 +20,23 @@ class SailorRemoteMediator @Inject constructor(
     private val sailorDao = sailorDB.sailorDao()
     private val sailorRemoteKeyDao = sailorDB.remoteKeyDao()
 
+    override suspend fun initialize(): InitializeAction {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated  = sailorRemoteKeyDao.getRemoteKey(1)?.lastUpdated ?: 0
+        val cacheTimeOut = 1440 // 24 hours
+
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return if(diffInMinutes.toInt() <= cacheTimeOut){
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+        else{
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+
+
+
+
+    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -64,7 +81,8 @@ class SailorRemoteMediator @Inject constructor(
                         SailorRemoteKey(
                             id = characters.id,
                             prevKey = prevPage,
-                            nextKey = nextPAge
+                            nextKey = nextPAge,
+                            lastUpdated = response.lastUpdated
                         )
                     }
 
@@ -103,4 +121,6 @@ class SailorRemoteMediator @Inject constructor(
             }
         }
     }
+
+
 }

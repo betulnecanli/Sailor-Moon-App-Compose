@@ -10,5 +10,6 @@ data class SailorRemoteKey(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val prevKey: Int?,
-    val nextKey: Int?
+    val nextKey: Int?,
+    val lastUpdated : Long?
 )

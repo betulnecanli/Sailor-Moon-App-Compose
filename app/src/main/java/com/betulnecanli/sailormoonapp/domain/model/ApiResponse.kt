@@ -15,5 +15,7 @@ data class ApiResponse(
     @SerializedName("sailorMoon")
     val sailorMoon: List<SailorMoon>,
     @SerializedName("success")
-    val success: Boolean
+    val success: Boolean,
+    @SerializedName("lastUpdated")
+    val lastUpdated: Long? = null,
 )
