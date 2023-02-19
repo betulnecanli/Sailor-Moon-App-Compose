@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,8 @@ import com.betulnecanli.sailormoonapp.ui.theme.ShimmerMediumGray
 fun ShimmerEffect(){
 
     LazyColumn(
+       modifier = Modifier.background(color= if(isSystemInDarkTheme())
+           ShimmerDarkGray else Color.White),
         contentPadding = PaddingValues(all = SMALL_PADDING),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
     ){
