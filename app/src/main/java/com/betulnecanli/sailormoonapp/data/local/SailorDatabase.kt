@@ -10,7 +10,7 @@ import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
 import com.betulnecanli.sailormoonapp.domain.model.SailorRemoteKey
 import com.betulnecanli.sailormoonapp.utils.DatabaseConverter
 
-@Database(entities = [SailorMoon::class, SailorRemoteKey::class], version = 1, exportSchema = false)
+@Database(entities = [SailorMoon::class, SailorRemoteKey::class], version = 2, exportSchema = false)
 @TypeConverters(DatabaseConverter::class)
 abstract class SailorDatabase : RoomDatabase() {
     abstract fun sailorDao() : SailorDao
