@@ -14,9 +14,9 @@ interface SailorApi {
 
 
 
-   /* @GET("/sailormoon/characters/search")
+    @GET("/sailormoon/characters/search")
     suspend fun searchCharacters(
         @Query("name") name : String
-    ): ApiResponse*/
+    ): ApiResponse
 
 }

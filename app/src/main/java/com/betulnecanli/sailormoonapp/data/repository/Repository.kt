@@ -16,6 +16,10 @@ class Repository @Inject constructor(
         return remote.getAllCharacters()
     }
 
+    fun searchCharacters(query : String): Flow<PagingData<SailorMoon>>{
+        return  remote.searchCharacters(query)
+    }
+
     suspend fun saveOnBoardingState(completed : Boolean){
         dataStore.saveOnBoardingState(completed = completed)
     }
