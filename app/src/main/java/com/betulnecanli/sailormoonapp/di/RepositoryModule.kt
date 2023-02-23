@@ -6,6 +6,7 @@ import com.betulnecanli.sailormoonapp.data.repository.Repository
 import com.betulnecanli.sailormoonapp.domain.repository.DatastoreOperations
 import com.betulnecanli.sailormoonapp.domain.use_cases.UseCases
 import com.betulnecanli.sailormoonapp.domain.use_cases.get_all_characters.GetAllCharactersUseCase
+import com.betulnecanli.sailormoonapp.domain.use_cases.get_selected_character.GetSelectedCharacterUseCase
 import com.betulnecanli.sailormoonapp.domain.use_cases.read_onboarding.ReadOnBoardingUseCase
 import com.betulnecanli.sailormoonapp.domain.use_cases.save_onboarding.SaveOnBoardingUseCase
 import com.betulnecanli.sailormoonapp.domain.use_cases.search_characters.SearchCharactersUseCase
@@ -36,7 +37,8 @@ object RepositoryModule {
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
             getAllCharactersUseCase = GetAllCharactersUseCase(repository),
-            searchCharactersUseCase = SearchCharactersUseCase(repository)
+            searchCharactersUseCase = SearchCharactersUseCase(repository),
+            getSelectedCharacterUseCase = GetSelectedCharacterUseCase(repository)
         )
     }
 
