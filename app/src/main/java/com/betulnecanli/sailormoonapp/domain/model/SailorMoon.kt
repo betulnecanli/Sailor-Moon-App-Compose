@@ -25,6 +25,8 @@ data class SailorMoon(
     val realName: String,
     @SerializedName("species")
     val species: String,
+    @SerializedName("about")
+    val about: String,
     @SerializedName("heartRate")
     val heart: Double
 )

@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.betulnecanli.sailormoonapp.presentation.screens.details.DetailsScreen
 import com.betulnecanli.sailormoonapp.presentation.screens.home.HomeScreen
 import com.betulnecanli.sailormoonapp.presentation.screens.search.SearchScreen
 import com.betulnecanli.sailormoonapp.presentation.screens.splash.SplashScreen
@@ -38,7 +39,7 @@ fun SetupNavGraph(navController: NavHostController){
                 type = NavType.IntType
             })
         ) {
-
+            DetailsScreen(navController = navController)
         }
         composable(route = Screen.Search.route){
                 SearchScreen(navController = navController)
