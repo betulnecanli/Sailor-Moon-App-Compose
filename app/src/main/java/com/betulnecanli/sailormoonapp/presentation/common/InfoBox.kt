@@ -17,11 +17,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.betulnecanli.sailormoonapp.R
 import com.betulnecanli.sailormoonapp.ui.theme.INFO_ICON_SIZE
 import com.betulnecanli.sailormoonapp.ui.theme.SMALL_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.titleColor
+
 
 @Composable
 fun InfoBox(

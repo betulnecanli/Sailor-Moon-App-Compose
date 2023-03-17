@@ -50,6 +50,7 @@ import com.betulnecanli.sailormoonapp.ui.theme.topAppBarContentColor
 import com.betulnecanli.sailormoonapp.utils.Constants.BASE_URL
 
 
+
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ListContent(
@@ -183,7 +184,7 @@ fun CharacterPreview(){
         heart = 2.0,
         image ="" ,
         realName = "",
-        species = "Human"
-
+        species = "Human",
+        about = "dsdsfd"
     ), navController = rememberNavController())
 }

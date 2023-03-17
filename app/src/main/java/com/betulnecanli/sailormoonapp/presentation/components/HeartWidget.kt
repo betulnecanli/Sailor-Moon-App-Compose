@@ -30,6 +30,7 @@ import com.betulnecanli.sailormoonapp.ui.theme.EXTRA_SMALL_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.Pink200
 import com.betulnecanli.sailormoonapp.ui.theme.heartColor
 
+
 @Composable
 fun HeartWidget(
     modifier: Modifier,
