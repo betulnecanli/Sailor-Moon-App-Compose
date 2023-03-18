@@ -29,6 +29,7 @@ import com.betulnecanli.sailormoonapp.ui.theme.Pink700
 fun SplashScreen(navController: NavHostController,
                     splashViewModel: SplashViewModel = hiltViewModel())
 {
+
         val lifecycleOwner = LocalLifecycleOwner.current
 
         val onBoardingCompleted by splashViewModel.onBoardingCompleted.collectAsState()
