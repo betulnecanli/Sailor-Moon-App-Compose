@@ -42,7 +42,8 @@ To run this app, you'll need to have Android Studio installed. Follow these step
 - Coil
 - Dagger Hilt
 - Coroutines
-
+- Palette API
+- KotlinX Serialization
 
 # License
 ```xml
