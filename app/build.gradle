@@ -117,6 +117,9 @@ dependencies {
     // Palette API
     implementation "androidx.palette:palette-ktx:1.0.0"
 
+    debugImplementation "com.github.chuckerteam.chucker:library:4.0.0"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:4.0.0"
+
 
 }
 kapt {
