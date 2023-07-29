@@ -32,6 +32,9 @@ val Colors.titleColor
     @Composable
     get() = if(isLight) DarkGray else LightGray
 
+val Colors.statusBarColor
+    get() = if (isLight) heartColor else Color.Black
+
 val Colors.descriptionColor
     @Composable
     get() = if(isLight) DarkGray.copy(alpha = 0.5f) else LightGray.copy(alpha = 0.5f)

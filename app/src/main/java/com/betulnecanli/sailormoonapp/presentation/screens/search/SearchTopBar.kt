@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.presentation.screens.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,21 +21,29 @@ import com.betulnecanli.sailormoonapp.ui.theme.TOP_APP_BAR_HEIGHT
 import com.betulnecanli.sailormoonapp.ui.theme.topAppBarBackgroundColor
 import com.betulnecanli.sailormoonapp.ui.theme.topAppBarContentColor
 
-@Composable
-fun SearchTopBar( text :String,
-                  onTextChange : (String) -> Unit,
-                  onSearchClicked: (String) -> Unit,
-                  onCloseClicked : () -> Unit
-                  ){
 
+
+@Composable
+fun SearchTopBar(
+    text: String,
+    onTextChange: (String) -> Unit,
+    onSearchClicked: (String) -> Unit,
+    onCloseClicked: () -> Unit
+) {
+    SearchWidget(
+        text = text,
+        onTextChange = onTextChange,
+        onSearchClicked = onSearchClicked,
+        onCloseClicked = onCloseClicked
+    )
 }
 
 @Composable
 fun SearchWidget(
-    text :String,
-    onTextChange : (String) -> Unit,
+    text: String,
+    onTextChange: (String) -> Unit,
     onSearchClicked: (String) -> Unit,
-    onCloseClicked : () -> Unit
+    onCloseClicked: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -63,11 +73,13 @@ fun SearchWidget(
                 IconButton(
                     modifier = Modifier
                         .alpha(alpha = ContentAlpha.medium),
-                    onClick = {}
+                    onClick = {
+                        onSearchClicked(text)
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription ="Search Icon",
+                        contentDescription = "stringResource(R.string.search_icon)",
                         tint = MaterialTheme.colors.topAppBarContentColor
                     )
                 }
@@ -84,7 +96,7 @@ fun SearchWidget(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close Icon",
+                        contentDescription = "stringResource(R.string.close_icon)",
                         tint = MaterialTheme.colors.topAppBarContentColor
                     )
                 }
@@ -104,6 +116,7 @@ fun SearchWidget(
         )
     }
 }
+
 
 @Composable
 @Preview
