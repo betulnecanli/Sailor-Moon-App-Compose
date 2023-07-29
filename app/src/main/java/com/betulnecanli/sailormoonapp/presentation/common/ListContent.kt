@@ -164,8 +164,8 @@ fun CharacterItem(
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis)
             Row(modifier = Modifier.padding(top = SMALL_PADDING), verticalAlignment = Alignment.CenterVertically){
-                    HeartWidget(modifier = Modifier.padding(end = SMALL_PADDING), heart = character.heart )
-                    Text(text = "(${character.heart})", textAlign = TextAlign.Center)
+                    character.heartRate?.let { HeartWidget(modifier = Modifier.padding(end = SMALL_PADDING), heart = it) }
+                    Text(text = "(${character.heartRate})", textAlign = TextAlign.Center)
             }
         }
 
@@ -181,7 +181,7 @@ fun CharacterPreview(){
         name = "Sailor Moon",
         age = 17,
         birthday ="April 5",
-        heart = 2.0,
+        heartRate = 2.0,
         image ="" ,
         realName = "",
         species = "Human",

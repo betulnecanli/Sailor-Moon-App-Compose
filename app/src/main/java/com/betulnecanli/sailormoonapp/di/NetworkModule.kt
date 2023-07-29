@@ -1,6 +1,7 @@
 package com.betulnecanli.sailormoonapp.di
 
 import android.content.Context
+import androidx.paging.ExperimentalPagingApi
 import com.betulnecanli.sailormoonapp.data.local.SailorDatabase
 import com.betulnecanli.sailormoonapp.data.remote.SailorApi
 import com.betulnecanli.sailormoonapp.data.repository.RemoteDataSourceImpl
@@ -15,7 +16,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -64,6 +64,7 @@ object NetworkModule {
     }
 
 
+    @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
     fun provideRemoteDataSource(

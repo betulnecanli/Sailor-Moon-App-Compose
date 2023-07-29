@@ -12,13 +12,13 @@ import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
 import com.betulnecanli.sailormoonapp.domain.repository.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
+@ExperimentalPagingApi
 class RemoteDataSourceImpl(
     private val api : SailorApi,
     private val db : SailorDatabase
 ) : RemoteDataSource {
 
     private val SailorDao = db.sailorDao()
-    private val RemoteKeysDao = db.remoteKeyDao()
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getAllCharacters(): Flow<PagingData<SailorMoon>> {

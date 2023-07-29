@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.data.paging_source
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -13,30 +14,13 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class SailorRemoteMediator @Inject constructor(
-    private val sailorApi: SailorApi,
-    private val sailorDB : SailorDatabase
+    private val sailorMoonAPI: SailorApi,
+    private val sailorMoonDB: SailorDatabase
 ): RemoteMediator<Int, SailorMoon>() {
 
-    private val sailorDao = sailorDB.sailorDao()
-    private val sailorRemoteKeyDao = sailorDB.remoteKeyDao()
+    private val sailorMoonDAO = sailorMoonDB.sailorDao()
+    private val remoteKeysDAO = sailorMoonDB.remoteKeyDao()
 
-    override suspend fun initialize(): InitializeAction {
-        val currentTime = System.currentTimeMillis()
-        val lastUpdated  = sailorRemoteKeyDao.getRemoteKey(1)?.lastUpdated ?: 0
-        val cacheTimeOut = 1440 // 24 hours
-
-        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
-        return if(diffInMinutes.toInt() <= cacheTimeOut){
-            InitializeAction.SKIP_INITIAL_REFRESH
-        }
-        else{
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        }
-
-
-
-
-    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -46,7 +30,7 @@ class SailorRemoteMediator @Inject constructor(
             val page = when(loadType){
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
-                    val nextPage = remoteKeys?.nextKey
+                    val nextPage = remoteKeys?.nextPage
                         ?: return MediatorResult.Success(
                             endOfPaginationReached = remoteKeys != null
                         )
@@ -54,7 +38,7 @@ class SailorRemoteMediator @Inject constructor(
                 }
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeyFirstItem(state)
-                    val prevPage = remoteKeys?.prevKey
+                    val prevPage = remoteKeys?.prevPage
                         ?: return MediatorResult.Success(
                             endOfPaginationReached = remoteKeys != null
                         )
@@ -62,17 +46,16 @@ class SailorRemoteMediator @Inject constructor(
                 }
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKeys?.nextKey?.minus(1) ?: 1
+                    remoteKeys?.nextPage?.minus(1) ?: 1
                 }
             }
 
-            val response = sailorApi.getCharacters(page = page)
+            val response = sailorMoonAPI.getCharacters(page = page)
             if (response.sailorMoon.isNotEmpty()) {
-
-                sailorDB.withTransaction {
+                sailorMoonDB.withTransaction {
                     if (loadType == LoadType.REFRESH) {
-                        sailorDao.deleteAllCharacters()
-                        sailorRemoteKeyDao.deleteAllRemoteKeys()
+                        sailorMoonDAO.deleteAllCharacters()
+                        remoteKeysDAO.deleteAllRemoteKeys()
                     }
 
                     val prevPage = response.prevPage
@@ -80,47 +63,44 @@ class SailorRemoteMediator @Inject constructor(
                     val keys = response.sailorMoon.map { characters ->
                         SailorRemoteKey(
                             id = characters.id,
-                            prevKey = prevPage,
-                            nextKey = nextPAge,
-                            lastUpdated = response.lastUpdated
+                            prevPage = prevPage,
+                            nextPage = nextPAge,
+                            lastUpdated = null
                         )
                     }
 
-                    sailorRemoteKeyDao.addAllRemoteKeys(keys)
-                    sailorDao.addCharacters(response.sailorMoon)
+                    remoteKeysDAO.addAllRemoteKeys(keys)
+                    sailorMoonDAO.addCharacters(response.sailorMoon)
                 }
             }
             MediatorResult.Success(endOfPaginationReached = response.nextPage == null)
         } catch(e : Exception) {
-
-
             return MediatorResult.Error(e)
         }
     }
 
 
+
     private suspend fun getRemoteKeyFirstItem(state: PagingState<Int, SailorMoon>): SailorRemoteKey? {
         return state.pages.firstOrNull{it.data.isNotEmpty()}?.data?.firstOrNull()
             ?.let {
-                sailorRemoteKeyDao.getRemoteKey(it.id)
+                remoteKeysDAO.getRemoteKey(it.id)
             }
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, SailorMoon>): SailorRemoteKey? {
         return state.pages.lastOrNull(){it.data.isNotEmpty()}?.data?.lastOrNull()
             ?.let {
-                sailorRemoteKeyDao.getRemoteKey(it.id)
+                remoteKeysDAO.getRemoteKey(it.id)
             }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, SailorMoon>): SailorRemoteKey? {
         return state.anchorPosition?.let {position ->
             state.closestItemToPosition(position)?.id?.let {id->
-                sailorRemoteKeyDao.getRemoteKey(id=id )
+                remoteKeysDAO.getRemoteKey(id=id )
 
             }
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.betulnecanli.sailormoonapp.presentation.common
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -135,6 +136,7 @@ fun parseErrorMessage(error: LoadState.Error) : String{
             "Internet Unavailable."
         }
         else -> {
+            Log.d("hataa", error.toString() )
             "Unknown Error."
         }
     }

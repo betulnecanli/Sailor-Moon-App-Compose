@@ -10,23 +10,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = SAILOR_DATABASE_TABLE)
 data class SailorMoon(
-    @SerializedName("age")
-    val age: Int,
-    @SerializedName("birthday")
+    val age: Int?,
     val birthday: String,
     @PrimaryKey(autoGenerate = false)
-    @SerializedName("id")
     val id: Int,
-    @SerializedName("image")
     val image: String,
-    @SerializedName("name")
     val name: String,
-    @SerializedName("realName")
     val realName: String,
-    @SerializedName("species")
     val species: String,
-    @SerializedName("about")
     val about: String,
-    @SerializedName("heartRate")
-    val heart: Double
+    val heartRate: Double?
 )

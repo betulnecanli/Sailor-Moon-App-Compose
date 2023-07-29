@@ -9,7 +9,7 @@ import com.betulnecanli.sailormoonapp.utils.Constants.SAILOR_REMOTE_KEY_DATABASE
 data class SailorRemoteKey(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    val prevKey: Int?,
-    val nextKey: Int?,
+    val prevPage: Int?,
+    val nextPage: Int?,
     val lastUpdated : Long?
 )

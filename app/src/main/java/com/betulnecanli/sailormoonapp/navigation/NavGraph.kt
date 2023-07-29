@@ -19,13 +19,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SetupNavGraph(navController: NavHostController){
+fun SetupNavGraph(navController: NavHostController, startDestination: String){
     NavHost(navController = navController,
-        startDestination = Screen.Home.route){
+        startDestination = startDestination){
 
-        composable(route = Screen.Splash.route){
+    /*    composable(route = Screen.Splash.route){
             SplashScreen(navController = navController)
-        }
+        }*/
         composable(route = Screen.Welcome.route){
             WelcomeScreen(navController = navController)
         }
