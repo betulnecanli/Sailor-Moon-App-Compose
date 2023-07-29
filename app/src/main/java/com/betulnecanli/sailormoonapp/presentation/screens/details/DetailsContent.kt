@@ -36,10 +36,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.betulnecanli.sailormoonapp.R
 import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
-import com.betulnecanli.sailormoonapp.presentation.common.InfoBox
+import com.betulnecanli.sailormoonapp.presentation.components.InfoBox
+import com.betulnecanli.sailormoonapp.presentation.components.OrderedList
 import com.betulnecanli.sailormoonapp.ui.theme.EXPANDED_RADIUS_LEVEL
 import com.betulnecanli.sailormoonapp.ui.theme.EXTRA_LARGE_PADDING
 import com.betulnecanli.sailormoonapp.ui.theme.INFO_ICON_SIZE
@@ -54,6 +58,8 @@ import com.betulnecanli.sailormoonapp.utils.Constants.MIN_BACKGROUND_IMAGE_HEIGH
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
 @Composable
 fun DetailsContent(
     navController: NavHostController,
@@ -65,19 +71,21 @@ fun DetailsContent(
     var darkVibrant by remember { mutableStateOf("#000000") }
     var onDarkVibrant by remember { mutableStateOf("#ffffff") }
 
-    LaunchedEffect(key1=selectedCharacter){
+    LaunchedEffect(key1 = selectedCharacter) {
         vibrant = colors["vibrant"]!!
         darkVibrant = colors["darkVibrant"]!!
         onDarkVibrant = colors["onDarkVibrant"]!!
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
-        color = Color(parseColor(darkVibrant))
-    )
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color(parseColor(darkVibrant))
+        )
+    }
 
     val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberBottomSheetState(initialValue = Expanded)
+        bottomSheetState = rememberBottomSheetState(initialValue = Collapsed)
     )
 
     val currentSheetFraction = scaffoldState.currentSheetFraction
@@ -89,6 +97,7 @@ fun DetailsContent(
         else
             EXPANDED_RADIUS_LEVEL
     )
+
     BottomSheetScaffold(
         sheetShape = RoundedCornerShape(
             topStart = radiusAnim,
@@ -107,9 +116,9 @@ fun DetailsContent(
             }
         },
         content = {
-            selectedCharacter?.let { ch ->
+            selectedCharacter?.let { hero ->
                 BackgroundContent(
-                    chImage = ch.image,
+                    characterImage = hero.image,
                     imageFraction = currentSheetFraction,
                     backgroundColor = Color(parseColor(darkVibrant)),
                     onCloseClicked = {
@@ -119,8 +128,6 @@ fun DetailsContent(
             }
         }
     )
-
-
 }
 
 @Composable
@@ -202,35 +209,54 @@ fun BottomSheetContent(
             fontSize = MaterialTheme.typography.body1.fontSize,
             maxLines = ABOUT_MAX_TEXT_LINES
         )
-
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            OrderedList(
+                title = "Family",
+                items =  listOf("Minato", "Kushina"),
+                textColor = contentColor
+            )
+            OrderedList(
+                title = "Family",
+                items =  listOf("Minato", "Kushina"),
+                textColor = contentColor
+            )
+            OrderedList(
+                title = "Family",
+                items = listOf("Minato", "Kushina"),
+                textColor = contentColor
+            )
+        }
     }
 }
 
 @ExperimentalCoilApi
 @Composable
 fun BackgroundContent(
-    chImage: String,
+    characterImage: String,
     imageFraction: Float = 1f,
     backgroundColor: Color = MaterialTheme.colors.surface,
     onCloseClicked: () -> Unit
 ) {
-    val imageUrl = "$BASE_URL${chImage}"
-    val painter = rememberImagePainter(imageUrl) {
-        error(R.drawable.ic_placeholder)
-    }
+    val imageUrl = "$BASE_URL${characterImage}"
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(fraction = imageFraction + MIN_BACKGROUND_IMAGE_HEIGHT)
+                .fillMaxHeight(fraction = imageFraction + 0.5f)
                 .align(Alignment.TopStart),
-            painter = painter,
-            contentDescription = "Hero Image",
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(data = imageUrl)
+                .error(drawableResId = R.drawable.ic_placeholder)
+                .build(),
+            contentDescription = "Character Image",
             contentScale = ContentScale.Crop
         )
         Row(
@@ -251,6 +277,8 @@ fun BackgroundContent(
         }
     }
 }
+
+
 
 @ExperimentalMaterialApi
 val BottomSheetScaffoldState.currentSheetFraction: Float
@@ -274,7 +302,7 @@ fun BottomSheetContentPreview() {
     BottomSheetContent(
         selectedCharacter = SailorMoon(
             id = 1,
-            name = "Naruto",
+            name = "Sailor",
             image = "",
             about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             heartRate = 4.5,

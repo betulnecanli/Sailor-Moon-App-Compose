@@ -1,5 +1,6 @@
 package com.betulnecanli.sailormoonapp.presentation.screens.details
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -7,11 +8,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.annotation.ExperimentalCoilApi
 import com.betulnecanli.sailormoonapp.utils.Constants.BASE_URL
 import com.betulnecanli.sailormoonapp.utils.PaletteGenerator.convertImageUrlToBitmap
 import com.betulnecanli.sailormoonapp.utils.PaletteGenerator.extractColorsFromBitmap
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailsScreen(
     navController : NavHostController,

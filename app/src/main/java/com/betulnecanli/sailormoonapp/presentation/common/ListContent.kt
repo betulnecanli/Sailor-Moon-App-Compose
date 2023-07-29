@@ -36,6 +36,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.items
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.betulnecanli.sailormoonapp.R
 import com.betulnecanli.sailormoonapp.domain.model.SailorMoon
@@ -118,10 +119,13 @@ fun CharacterItem(
     navController: NavHostController
 ){
 
-    val painter  = rememberImagePainter(data = "$BASE_URL${character.image}"){
-        placeholder(R.drawable.ic_placeholder)
-        error(R.drawable.ic_placeholder)
-    }
+    val painter : ImagePainter = rememberImagePainter(
+        data = "$BASE_URL${character.image}",
+        builder = {
+            placeholder(R.drawable.ic_placeholder)
+            error(R.drawable.ic_placeholder)
+        }
+    )
 
     Box(modifier = Modifier
         .height(CHARACTER_ITEM_HEIGHT)

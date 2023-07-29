@@ -1,6 +1,7 @@
 package com.betulnecanli.sailormoonapp.navigation
 
 import android.annotation.SuppressLint
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -17,7 +18,7 @@ import com.betulnecanli.sailormoonapp.utils.Constants.DETAILS_ARGUMENT_KEY
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun SetupNavGraph(navController: NavHostController, startDestination: String){
     NavHost(navController = navController,
