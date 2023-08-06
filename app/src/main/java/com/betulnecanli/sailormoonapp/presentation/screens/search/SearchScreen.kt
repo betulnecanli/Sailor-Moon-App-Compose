@@ -41,11 +41,9 @@ fun SearchScreen(
                 text = searchQuery,
                 onTextChange = {
                     searchViewModel.updateSearchQuery(query = it)
-                    Log.d("mettun1", it)
                 },
                 onSearchClicked = {
                     searchViewModel.searchCharacters(query = it)
-                    Log.d("mettun2", it)
                 },
                 onCloseClicked = {
                     navController.popBackStack()
