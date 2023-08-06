@@ -38,6 +38,7 @@ To run this app, you'll need to have Android Studio installed. Follow these step
 - Retrofit
 - Paging3
 - ViewBinding
+- Navigation
 - Flows
 - Coil
 - Dagger Hilt
