@@ -24,8 +24,10 @@ Enjoy exploring the world of Sailor Moon on your Android device with this app.</
   
 <h2 align="center">Getting Started 🚀</h2>
 
-To run this app, you'll need to have Android Studio installed. Follow these steps to get started:
+To run this app, you'll need to have IntelliJ IDEA and Android Studio installed. Follow these steps to get started:
 
+ - Clone this repository: https://github.com/betulnecanli/SailorMoonServer
+ - Open the project in IntelliJ IDEA and run. 
  - Clone this repository: git clone https://github.com/betulnecanli/SailorMoonAppCompose.git
  - Open the project in Android Studio.
  - Build and run the app.
