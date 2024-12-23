@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var useCases: UseCases
 
-    private var completed = false
+    private var completed = true
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
