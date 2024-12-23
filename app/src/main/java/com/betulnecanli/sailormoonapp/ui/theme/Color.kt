@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 val Pink200 = Color(0xFFE77B9F)
 val Pink500 = Color(0xFFE91E63)
 val Pink700 = Color(0xFFB90945)
-val Pink800 = Color(0xFFE93D78)
 val heartColor = Color(0xFFE7263D)
 
 val Purple80 = Color(0xFFD0BCFF)
