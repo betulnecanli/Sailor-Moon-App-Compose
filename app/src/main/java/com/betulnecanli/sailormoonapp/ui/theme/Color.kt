@@ -10,6 +10,8 @@ val Pink700 = Color(0xFFB90945)
 val Pink800 = Color(0xFFE93D78)
 val heartColor = Color(0xFFE7263D)
 
+val heartColor5 = Color(0xFFE7263D)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
